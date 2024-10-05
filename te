@@ -1,3 +1,4 @@
+_G.Key = ""
 local userkeyURL = "https://raw.githubusercontent.com/hyen17/aaa/refs/heads/main/keysawdawd"
 local blacklistURL = "https://raw.githubusercontent.com/hyen17/aaa/main/blacklist" -- Define the blacklist URL
 
