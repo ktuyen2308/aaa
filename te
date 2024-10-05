@@ -1,0 +1,49 @@
+local userkeyURL = "https://raw.githubusercontent.com/hyen17/aaa/refs/heads/main/keysawdawd"
+local blacklistURL = "https://raw.githubusercontent.com/hyen17/aaa/main/blacklist" -- Define the blacklist URL
+
+local success, keyData = pcall(function()
+    return game:HttpGet(userkeyURL, true)
+end)
+
+local banned = {}
+if success then
+    local successBlacklist, blacklistData = pcall(function()
+        return game:HttpGet(blacklistURL, true)
+    end)
+    
+    if successBlacklist then
+        banned = string.split(blacklistData, "\n") -- Assuming each banned key is on a new line
+    else
+        warn("Failed to fetch banned list:", blacklistData)
+    end
+else
+    warn("Failed to fetch key data:", keyData)
+end
+
+local plr = game.Players.LocalPlayer
+local isKeyValid = string.find(keyData, _G.Key) ~= nil
+local isBanned = false
+
+for _, bannedKey in ipairs(banned) do
+    if bannedKey == plr.UserId then -- or another method to identify if the user is banned
+        isBanned = true
+        break
+    end
+end
+
+if isKeyValid and not isBanned then
+    local scriptURL = loadstring(game:HttpGet('https://raw.githubusercontent.com/hyen17/aaa/main/gethwid'))()
+    local success, err = pcall(function()
+        loadstring(game:HttpGet(scriptURL))()
+    end)
+
+    if success then
+        print("You are Whitelisted")
+    else
+        warn("Failed to load script:", err)
+    end
+else
+    if plr then
+        plr:kick("You are not Whitelisted or you are banned. Please contact support.")
+    end
+end
